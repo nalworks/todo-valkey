@@ -1,0 +1,17 @@
+{
+  "name": "todo-valkey",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Node.js todo app backed by Valkey",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "redis": "^5.0.0"
+  }
+}
