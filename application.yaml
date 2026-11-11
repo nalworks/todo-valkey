@@ -7,6 +7,7 @@ spec:
   description: Node.js todo app backed by Valkey
 runtime:
   type: k8s
+  architecture: arm64
   port: 8080
   health: /health
 pipeline:
