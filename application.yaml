@@ -1,28 +1,16 @@
-apiVersion: agent.opspresso.com/v1
+apiVersion: agent.opspresso.com/v4
 kind: Application
 spec:
   name: todo-valkey
+  repository: github.com/nalworks/todo-valkey
   owner: dBT43yQ7DQIIIMlYbjiXsIr8tbuIgVJA
-  repository: nalworks/todo-valkey
   description: Node.js todo app backed by Valkey
 runtime:
   port: 8080
   health: /health
-  build:
-    context: .
-    dockerfile: Dockerfile
-  test:
-    image: node:24-alpine
-    command: npm ci && npm test
-environments:
-  dev:
-    env:
-      LOG_LEVEL: info
-    resources:
-      - name: todo-valkey
-        class: valkey
-  prod:
-    replicas: 1
-    resources:
-      - name: todo-valkey
-        class: valkey
+build:
+  context: .
+  dockerfile: Dockerfile
+test:
+  image: node:24-alpine
+  command: npm ci && npm test
