@@ -1,4 +1,4 @@
-apiVersion: agent.opspresso.com/v1
+apiVersion: agent.opspresso.com/v3
 kind: Application
 spec:
   name: todo-valkey
@@ -6,23 +6,29 @@ spec:
   repository: nalworks/todo-valkey
   description: Node.js todo app backed by Valkey
 runtime:
+  type: k8s
   port: 8080
   health: /health
+pipeline:
+  trigger:
+    branch: main
   build:
     context: .
     dockerfile: Dockerfile
   test:
     image: node:24-alpine
     command: npm ci && npm test
+# Promotion order: a push to main deploys to dev; prod receives a Release only by promotion.
 environments:
-  dev:
+  - name: dev
+    size: small
     env:
       LOG_LEVEL: info
     resources:
       - name: todo-valkey
-        class: valkey
-  prod:
-    replicas: 1
+        template: valkey
+  - name: prod
+    size: small
     resources:
       - name: todo-valkey
-        class: valkey
+        template: valkey
